@@ -1,3 +1,4 @@
+// library: https://github.com/batasanblog/atcoder/tree/master/atcoder/lib
 #include <bits/stdc++.h>
 #include <atcoder/all>
 using namespace std;
@@ -48,16 +49,13 @@ template<typename T>
 decltype(auto)at(T&w,pl a,const source_location&l=source_location::current()){
 	return at(w,a.fi,a.se,l);
 }
+#include <debug.hpp>
 #else
 template<typename T>inline decltype(auto)at(T&w,auto&&a){return w[a];}
 template<typename T>inline decltype(auto)at(T&w,auto&&a,auto&&b){return w[a][b];}
 template<typename T>inline decltype(auto)at(T&w,auto&&a,auto&&b,auto&&c){return w[a][b][c];}
 template<typename T>inline decltype(auto)at(T&w,auto&&a,auto&&b,auto&&c,auto&&d){return w[a][b][c][d];}
 template<typename T>inline decltype(auto)at(T&w,pl a){return w[a.fi][a.se];}
-#endif
-#ifdef DEBUG
-#include <debug.hpp>
-#else
 #define show(...)
 #endif
 
