@@ -1,0 +1,54 @@
+// combination mod prime
+// https://youtu.be/8uowVvQ_-Mo?t=6002
+// https://youtu.be/Tgd_zLfRZOQ?t=9928
+struct modinv {
+  ll n; vector<mint> d;
+  modinv(): n(2), d({0,1}) {}
+  mint operator()(ll i) {
+    while (n <= i) d.push_back(-d[mint::mod()%n]*(mint::mod()/n)), ++n;
+    return d[i];
+  }
+  mint operator[](ll i) const { return d[i];}
+} invs;
+struct modfact {
+  ll n; vector<mint> d;
+  modfact(): n(2), d({1,1}) {}
+  mint operator()(ll i) {
+    while (n <= i) d.push_back(d.back()*n), ++n;
+    return d[i];
+  }
+  mint operator[](ll i) const { return d[i];}
+} facts;
+struct modfactinv {
+  ll n; vector<mint> d;
+  modfactinv(): n(2), d({1,1}) {}
+  mint operator()(ll i) {
+    while (n <= i) d.push_back(d.back()*invs(n)), ++n;
+    return d[i];
+  }
+  mint operator[](ll i) const { return d[i];}
+} ifacts;
+mint comb(ll n, ll k) {
+  if (n < k || k < 0) return 0;
+  return facts(n)*ifacts(k)*ifacts(n-k);
+}
+vector<mint> polynomial_tailor_shift(const vector<mint>&f,const ll&c){
+	ll n=f.size()-1;
+	assert(n>=0);
+	vector<mint>p(n+1),q(n+1);
+	rep(i,n+1){
+		at(p,i)=at(f,i)*facts(i);
+		at(q,n-i)=mint(c).pow(i)*ifacts(i);
+	}
+	vector<mint>pq=convolution(p,q);
+	vector<mint>ret(n+1);
+	rep(i,n+1)at(ret,i)=at(pq,i+n)*ifacts(i);
+	return ret;
+}
+/*
+int main{
+	vector<mint> v(5);rep(i,5)at(v,i)=i+1;
+	auto w=polynomial_tailor_shift(v,3);
+	show("w",w);
+}
+*/
